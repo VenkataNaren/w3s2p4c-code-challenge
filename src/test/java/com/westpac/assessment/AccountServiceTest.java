@@ -8,14 +8,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import com.westpac.assessment.exception.AccountNotFoundException;
 import com.westpac.assessment.exception.InsufficientFundsException;
 import com.westpac.assessment.exception.MinimumWithdrawalAmountException;
 import com.westpac.assessment.model.Account;
+import com.westpac.assessment.model.Employee;
 import com.westpac.assessment.repository.AccountRepository;
+import com.westpac.assessment.repository.EmployeeRepository;
 import com.westpac.assessment.service.AccountService;
+import com.westpac.assessment.service.EmployeeService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +41,12 @@ class AccountServiceTest {
 
     @InjectMocks
     private AccountService service;
+
+    @Mock
+    private EmployeeRepository employeeRepository;
+
+    @InjectMocks
+    private EmployeeService employeeService;
 
     @BeforeEach
     void logTestName(TestInfo testInfo) {
@@ -175,5 +185,25 @@ class AccountServiceTest {
             service.createAccount("Charlie", new BigDecimal("-1.00"));
         });
         verify(repository, never()).save(any(Account.class));
+    }
+
+    @Test
+    void testEmployeeDemoComparableSort_OrdersByLastNameThenFirstName() {
+        List<Employee> sorted = employeeService.demoComparableSort();
+
+        assertEquals(3, sorted.size());
+        assertEquals("Collins", sorted.get(0).getLastName());
+        assertEquals("Hart", sorted.get(1).getLastName());
+        assertEquals("Nguyen", sorted.get(2).getLastName());
+    }
+
+    @Test
+    void testEmployeeDemoComparatorSortByEmail_OrdersByEmail() {
+        List<Employee> sorted = employeeService.demoComparatorSortByEmail();
+
+        assertEquals(3, sorted.size());
+        assertEquals("ava.collins@example.com", sorted.get(0).getEmail());
+        assertEquals("ben.hart@example.com", sorted.get(1).getEmail());
+        assertEquals("chloe.nguyen@example.com", sorted.get(2).getEmail());
     }
 }

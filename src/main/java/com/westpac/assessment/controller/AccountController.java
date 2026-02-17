@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.westpac.assessment.model.Account;
 import com.westpac.assessment.model.AccountUserInfo;
+import com.westpac.assessment.model.Employee;
 import com.westpac.assessment.service.AccountService;
 import com.westpac.assessment.service.AccountUserInfoService;
+import com.westpac.assessment.service.EmployeeService;
+
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class AccountController {
     private final AccountService service;
     private final AccountUserInfoService userInfoService;
+    private final EmployeeService employeeService;
 
     @PostMapping("/{id}/deposit")
     public ResponseEntity<Account> deposit(@PathVariable Long id, @Valid @RequestBody AmountRequest request) {
@@ -43,6 +47,16 @@ public class AccountController {
         return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
     }
 
+    @PostMapping("/{id}/user-info")
+    public ResponseEntity<AccountUserInfo> addUserInfo(@PathVariable Long id,
+            @Valid @RequestBody AccountUserInfoRequest request) {
+        return new ResponseEntity<>(userInfoService.addUserInfo(
+                id,
+                request.getAccountUserEmail(),
+                request.getAccountUserMobile(),
+                request.getAccountUserAddress()), HttpStatus.CREATED);
+    }
+
     @GetMapping("/{id}/user-info")
     public ResponseEntity<AccountUserInfo> getLatestUserInfo(@PathVariable Long id) {
         return ResponseEntity.ok(userInfoService.getLatestByAccountId(id));
@@ -56,5 +70,14 @@ public class AccountController {
     @GetMapping("/{id}/account-info")
     public ResponseEntity<Account> getAccountInfo(@PathVariable Long id) {
         return ResponseEntity.ok(service.getAccountByAccountId(id));
+    }
+
+    @PostMapping("/add-employee")
+    public ResponseEntity<Employee> addEmployeeToAccount(@Valid @RequestBody EmployeeRequest request) {
+        return new ResponseEntity<>(employeeService.addEmployee(
+                request.firstName(),
+                request.lastName(),
+                request.email(),
+                request.department()), HttpStatus.CREATED);
     }
 }

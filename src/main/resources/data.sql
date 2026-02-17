@@ -1,6 +1,7 @@
 -- This works for H2
 ALTER SEQUENCE account_id_sequence RESTART WITH 10000000000;
 ALTER SEQUENCE account_user_info_id_sequence RESTART WITH 1;
+ALTER SEQUENCE employee_id_sequence RESTART WITH 1;
 
 INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Ava Collins', 1250.00);
 INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Ben Hart', 80.50);
@@ -39,3 +40,14 @@ INSERT INTO account_user_info (id, account_id, account_user_email, account_user_
 INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000012, 'katie4.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:43:00');
 INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000013, 'katie5.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:34:00');
 INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000013, 'katie6.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:35:00');
+
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Ava', 'Collins', 'ava.collins@example.com', 'Engineering');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Ben', 'Hart', 'ben.hart@example.com', 'Finance');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Chloe', 'Nguyen', 'chloe.nguyen@example.com', 'Operations');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Daniel', 'Ortiz', 'daniel.ortiz@example.com', 'Engineering');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Elena', 'Rossi', 'elena.rossi@example.com', 'HR');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Finn', 'Patel', 'finn.patel@example.com', 'Sales');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Grace', 'Lee', 'grace.lee@example.com', 'Support');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Henry', 'Zhao', 'henry.zhao@example.com', 'Engineering');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Iris', 'Kim', 'iris.kim@example.com', 'Product');
+INSERT INTO employee (id, first_name, last_name, email, department) VALUES (NEXT VALUE FOR employee_id_sequence, 'Jacob', 'Smith', 'jacob.smith@example.com', 'Marketing');

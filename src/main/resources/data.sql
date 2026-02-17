@@ -1,0 +1,41 @@
+-- This works for H2
+ALTER SEQUENCE account_id_sequence RESTART WITH 10000000000;
+ALTER SEQUENCE account_user_info_id_sequence RESTART WITH 1;
+
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Ava Collins', 1250.00);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Ben Hart', 80.50);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Chloe Nguyen', 5420.75);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Daniel Ortiz', 15.25);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Elena Rossi', 300.00);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Finn Patel', 980.10);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Grace Lee', 210.00);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Henry Zhao', 760.40);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Iris Kim', 25.00);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Jacob Smith', 1999.99);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'James Brown', 420.00);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Katie Wilson', 615.50);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Lucas Martinez', 890.25);
+INSERT INTO account (id, account_holder_name, balance) VALUES (NEXT VALUE FOR account_id_sequence, 'Katie Wilson', 300.00);
+
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000000, 'ava.collins@example.com', '0412345678', '12 River Rd, Sydney NSW', TIMESTAMP '2026-02-10 09:00:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000001, 'ben.hart@example.com', '0412345679', '8 Hill St, Melbourne VIC', TIMESTAMP '2026-02-10 09:15:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000002, 'chloe.nguyen@example.com', '0412345680', '55 Lake Ave, Brisbane QLD', TIMESTAMP '2026-02-10 09:30:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000003, 'daniel.ortiz@example.com', '0412345681', '101 Bay Rd, Perth WA', TIMESTAMP '2026-02-10 09:45:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000004, 'elena.rossi@example.com', '0412345682', '22 Park St, Adelaide SA', TIMESTAMP '2026-02-10 10:00:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000005, 'finn.patel@example.com', '0412345683', '7 Ocean Dr, Hobart TAS', TIMESTAMP '2026-02-10 10:15:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000006, 'grace.lee@example.com', '0412345684', '33 King St, Canberra ACT', TIMESTAMP '2026-02-10 10:30:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000007, 'henry.zhao@example.com', '0412345685', '19 Queen St, Darwin NT', TIMESTAMP '2026-02-10 10:45:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000008, 'iris.kim@example.com', '0412345686', '4 Cedar Ln, Newcastle NSW', TIMESTAMP '2026-02-10 11:00:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000009, 'jacob.smith@example.com', '0412345687', '88 Market St, Geelong VIC', TIMESTAMP '2026-02-10 11:15:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000010, 'james.brown@example.com', '0412345688', '15 Oak Ave, Wollongong NSW', TIMESTAMP '2026-02-10 11:30:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000007, 'katie.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:45:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000008, 'katie.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:45:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000009, 'katie.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:45:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000012, 'lucas.martinez@example.com', '0412345690', '11 Maple St, Sunshine Coast QLD', TIMESTAMP '2026-02-10 12:00:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000011, 'katie1.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:23:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000011, 'katie2.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:12:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000011, 'katie3.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:32:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000011, 'fcuk@fcuk.com', '0226768407', '43 Domett Ave, Epsom, Auckland', TIMESTAMP '2026-02-10 11:38:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000012, 'katie4.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:43:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000013, 'katie5.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:34:00');
+INSERT INTO account_user_info (id, account_id, account_user_email, account_user_mobile, account_user_address, created_at) VALUES (NEXT VALUE FOR account_user_info_id_sequence, 10000000013, 'katie6.wilson@example.com', '0412345689', '77 Pine Rd, Gold Coast QLD', TIMESTAMP '2026-02-10 11:35:00');

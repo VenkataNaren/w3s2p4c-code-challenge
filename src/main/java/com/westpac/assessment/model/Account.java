@@ -28,6 +28,9 @@ public class Account {
     @Column(nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
 
+    @Column(name = "is_active", length = 1)
+    private String isActive = "Y";
+
     @OneToMany(mappedBy = "account")
     @JsonIgnore
     private List<AccountUserInfo> userInfos;

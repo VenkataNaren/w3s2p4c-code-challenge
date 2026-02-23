@@ -14,17 +14,13 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Entity
-@Table(
-    name = "account_user_info",
-    uniqueConstraints = {
+@Table(name = "account_user_info", uniqueConstraints = {
         @UniqueConstraint(columnNames = { "account_id", "created_at" })
-    }
-)
+})
 @Data
 public class AccountUserInfo {
     @Id
-    @SequenceGenerator(name = "account_user_info_id_seq", sequenceName = "account_user_info_id_sequence",
-            initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "account_user_info_id_seq", sequenceName = "account_user_info_id_sequence", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_user_info_id_seq")
     private Long id;
 

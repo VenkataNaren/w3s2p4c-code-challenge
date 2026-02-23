@@ -27,6 +27,11 @@ public class GlobalExceptionHandler {
         return buildResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidDepositAmountException.class)
+    public ResponseEntity<Object> handleInvalidDepositAmount(InvalidDepositAmountException ex) {
+        return buildResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleInvalidInput(IllegalArgumentException ex) {
         return buildResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);

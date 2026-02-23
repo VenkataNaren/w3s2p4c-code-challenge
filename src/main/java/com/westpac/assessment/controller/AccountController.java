@@ -18,7 +18,14 @@ import com.westpac.assessment.service.AccountService;
 import com.westpac.assessment.service.AccountUserInfoService;
 import com.westpac.assessment.service.EmployeeService;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @RestController
@@ -28,27 +35,29 @@ public class AccountController {
     private final AccountService service;
     private final AccountUserInfoService userInfoService;
     private final EmployeeService employeeService;
+    private final ObjectMapper objectMapper;
 
     @PostMapping("/{id}/deposit")
-    public ResponseEntity<Account> deposit(@PathVariable Long id, @Valid @RequestBody AmountRequest request) {
+    public ResponseEntity<Account> deposit(@PathVariable("id") Long id, @Valid @RequestBody AmountRequest request) {
         return ResponseEntity.ok(service.deposit(id, request.amount()));
     }
 
     @PostMapping("/{id}/withdraw")
-    public ResponseEntity<Account> withdraw(@PathVariable Long id, @Valid @RequestBody AmountRequest request) {
+    public ResponseEntity<Account> withdraw(@PathVariable("id") Long id, @Valid @RequestBody AmountRequest request) {
         return ResponseEntity.ok(service.withdraw(id, request.amount()));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Account> createAccount(@Valid @RequestBody CreateAccountRequest request) {
+    public ResponseEntity<Account> createAccount(@Valid @RequestBody CreateAccountVersionedRequest request) {
         Account savedAccount = service.createAccount(
                 request.accountHolderName(),
-                request.amount());
+                request.amount(),
+                request.isActive());
         return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/user-info")
-    public ResponseEntity<AccountUserInfo> addUserInfo(@PathVariable Long id,
+    public ResponseEntity<AccountUserInfo> addUserInfo(@PathVariable("id") Long id,
             @Valid @RequestBody AccountUserInfoRequest request) {
         return new ResponseEntity<>(userInfoService.addUserInfo(
                 id,
@@ -58,17 +67,17 @@ public class AccountController {
     }
 
     @GetMapping("/{id}/user-info")
-    public ResponseEntity<AccountUserInfo> getLatestUserInfo(@PathVariable Long id) {
+    public ResponseEntity<AccountUserInfo> getLatestUserInfo(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userInfoService.getLatestByAccountId(id));
     }
 
     @GetMapping("/{id}/user-info/history")
-    public ResponseEntity<List<AccountUserInfo>> getUserInfoHistory(@PathVariable Long id) {
+    public ResponseEntity<List<AccountUserInfo>> getUserInfoHistory(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userInfoService.getHistoryByAccountId(id));
     }
 
     @GetMapping("/{id}/account-info")
-    public ResponseEntity<Account> getAccountInfo(@PathVariable Long id) {
+    public ResponseEntity<Account> getAccountInfo(@PathVariable("id") Long id) {
         return ResponseEntity.ok(service.getAccountByAccountId(id));
     }
 
@@ -80,4 +89,36 @@ public class AccountController {
                 request.email(),
                 request.department()), HttpStatus.CREATED);
     }
+
+    @GetMapping("/var/usage")
+    public ResponseEntity<List<AccountUserInfo>> getVarUsage() {
+        var client = HttpClient.newHttpClient();
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9090/api/accounts/10000000013/user-info/history"))
+                .build();
+
+        try {
+            var response = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() >= 400) {
+                throw new IllegalStateException("Failed to fetch user info history. Status: " + response.statusCode());
+            }
+            var userInfos = objectMapper.readValue(response.body(), new TypeReference<List<AccountUserInfo>>() {
+            });
+            return ResponseEntity.ok(userInfos);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to fetch user info history", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Request interrupted", e);
+        }
+    }
+
+    @PostMapping("/create/orchestration")
+    public ResponseEntity<Account> createAccountOrchestration(@Valid @RequestBody CreateAccountRequest request) {
+        Account savedAccount = service.createAccountOrchestration(
+                request.accountHolderName(),
+                request.amount());
+        return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
+    }
+
 }

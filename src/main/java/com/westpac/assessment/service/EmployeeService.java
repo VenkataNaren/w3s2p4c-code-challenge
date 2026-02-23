@@ -1,6 +1,9 @@
 package com.westpac.assessment.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.westpac.assessment.model.Employee;
 import com.westpac.assessment.repository.EmployeeRepository;
@@ -77,5 +80,22 @@ public class EmployeeService {
         employees.add(e3);
 
         return employees;
+    }
+
+    // Demo-only helpers to show @Transactional self-invocation behavior
+    @Transactional
+    public String demoSelfInvocationDirect() {
+        String outer = currentTxName();
+        String inner = demoRequiresNew();
+        return "outer=" + outer + ", inner=" + inner;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public String demoRequiresNew() {
+        return currentTxName();
+    }
+
+    private String currentTxName() {
+        return TransactionSynchronizationManager.getCurrentTransactionName();
     }
 }

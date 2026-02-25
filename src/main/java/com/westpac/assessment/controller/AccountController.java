@@ -47,6 +47,12 @@ public class AccountController {
         return ResponseEntity.ok(service.withdraw(id, request.amount()));
     }
 
+    @PostMapping("/{customerId}/charge")
+    public ResponseEntity<String> chargeCustomer(
+            @PathVariable("customerId") String customerId) {
+        return ResponseEntity.ok(service.chargeCustomer(customerId));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Account> createAccount(@Valid @RequestBody CreateAccountVersionedRequest request) {
         Account savedAccount = service.createAccount(
@@ -114,11 +120,8 @@ public class AccountController {
     }
 
     @PostMapping("/create/orchestration")
-    public ResponseEntity<Account> createAccountOrchestration(@Valid @RequestBody CreateAccountRequest request) {
-        Account savedAccount = service.createAccountOrchestration(
-                request.accountHolderName(),
-                request.amount());
-        return new ResponseEntity<>(savedAccount, HttpStatus.CREATED);
+    public void createAccountOrchestration(@Valid @RequestBody CreateAccountRequest request) {
+        service.createAccountOrchestration();
     }
 
 }

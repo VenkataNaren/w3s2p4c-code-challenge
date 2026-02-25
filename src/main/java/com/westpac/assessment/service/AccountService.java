@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.westpac.assessment.exception.AccountNotFoundException;
 import com.westpac.assessment.exception.InsufficientFundsException;
@@ -12,6 +15,7 @@ import com.westpac.assessment.exception.MinimumWithdrawalAmountException;
 import com.westpac.assessment.model.Account;
 import com.westpac.assessment.repository.AccountRepository;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +25,9 @@ public class AccountService {
     private final AccountRepository repository;
     private static final BigDecimal MIN_WITHDRAWAL = new BigDecimal("10.00");
     private static final String DEFAULT_ACTIVE = "Y";
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     private static void validateWithdrawalAmount(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
@@ -108,7 +115,6 @@ public class AccountService {
                 .orElseThrow(() -> new AccountNotFoundException("Account with ID " + accountId + " not found"));
     }
 
-    @Transactional
     public void createAccountOrchestration() {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         try {
@@ -125,7 +131,21 @@ public class AccountService {
 
     }
 
+    @Async
+    @Transactional
     private void processAccountOrchestration(Account account) {
         repository.save(account);
+    }
+
+    @CircuitBreaker(name = "paymentServiceCB", fallbackMethod = "paymentFallback")
+    public String chargeCustomer(String customerId) {
+        // Call external payment API
+        String url = "https://jsonplaceholder.typicode.com/posts/" + customerId;
+        return restTemplate.getForObject(url, String.class);
+    }
+
+    // Fallback if service fails
+    public String paymentFallback(String customerId, double amount, Throwable t) {
+        return "Payment service is down. Please try again later!";
     }
 }
